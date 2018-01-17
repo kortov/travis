@@ -13,17 +13,9 @@ before_script:
   - psql -c "CREATE DATABASE sqlcmd;" -U postgres
   - psql -c "CREATE DATABASE test;" -U postgres
   - psql -c "CREATE USER sqlcmd WITH ENCRYPTED PASSWORD 'sqlcmd' SUPERUSER;" -U postgres
-  - sudo sed -i 's/# "local" is for Unix domain socket connections only
-                   local   all             all                                     trust
-                   # IPv4 local connections:
-                   host    all             all             127.0.0.1/32            trust
-                   # IPv6 local connections:
-                   host    all             all             ::1/128                 trust/# "local" is for Unix domain socket connections only
-                                                                                         local   all             sqlcmd                                     md5
-                                                                                         # IPv4 local connections:
-                                                                                         host    all             sqlcmd             127.0.0.1/32            md5
-                                                                                         # IPv6 local connections:
-                                                                                         host    all             sqlcmd             ::1/128                 md5/g' /etc/postgresql/9.6/main/pg_hba.conf
+  - sudo sed -i 's/# "local   all             all                                     trust/local   all             sqlcmd                                     md5/g' /etc/postgresql/9.6/main/pg_hba.conf
+  - sudo sed -i 's/# "host    all             all             127.0.0.1/32            trust/host    all             sqlcmd             127.0.0.1/32            md5/g' /etc/postgresql/9.6/main/pg_hba.conf
+  - sudo sed -i 's/# "host    all             all             ::1/128                 trust/host    all             sqlcmd             ::1/128                 md5/g' /etc/postgresql/9.6/main/pg_hba.conf
   - sudo service postgresql restart
   - sudo cat /etc/postgresql/9.6/main/pg_hba.conf
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE sqlcmd TO sqlcmd;" -U postgres
