@@ -33,7 +33,7 @@ public class ApplicationTest {
         System.setErr(originalErr);
     }
 
-    @Test
+    /*@Test
     public void TestSimpleSql() {
         try {
             new Application().simpleSQL();
@@ -60,5 +60,5 @@ public class ApplicationTest {
                 "2 |user2 |password2" + LINE_SEPARATOR +
                 LINE_SEPARATOR;
         assertEquals(expected, outContent.toString());
-    }
+    }*/
 }
