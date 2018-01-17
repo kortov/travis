@@ -71,10 +71,10 @@ public class DatabaseManagerTest {
         assertTrue(databaseManager.connect(TEST_DB_NAME, DB_USER_NAME, DB_USER_PASSWORD));
     }
 
-    /*@Test
+    @Test
     public void connectWithInvalidPassword() {
         assertFalse(databaseManager.connect(TEST_DB_NAME, DB_USER_NAME, "wrongPass"));
-    }*/
+    }
 
     @Test
     public void connectWithInvalidUserName() {
