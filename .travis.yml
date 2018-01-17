@@ -1,7 +1,6 @@
 language: java
 jdk:
   - oraclejdk8
-sudo: required
 services:
   - docker
   - postgresql
@@ -11,10 +10,10 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_script:
-  - echo -n sqlcmdsqlcmd | md5sum
+  - head -20 /etc/postgresql/9.6/main/pg_hba.conf
   - psql -c "CREATE DATABASE sqlcmd;" -U postgres
   - psql -c "CREATE DATABASE test;" -U postgres
-  - psql -c "CREATE USER sqlcmd WITH PASSWORD 'md5015e3a12c45d20fe16d5db2a7377ba1b' SUPERUSER;" -U postgres
+  - psql -c "CREATE USER sqlcmd WITH PASSWORD 'sqlcmd' SUPERUSER;" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE sqlcmd TO sqlcmd;" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE test TO sqlcmd;" -U postgres
 test:
