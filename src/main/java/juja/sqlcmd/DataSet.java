@@ -11,7 +11,7 @@ public class DataSet {
         row = new String[rowSize];
     }
 
-    
+
     public void insertValue(int columnIndex, String string) {
         if (columnIndex >= rowSize || columnIndex < 0) {
             String message = String.format("Column index should be between 0 and %s-1", rowSize);
