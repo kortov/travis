@@ -12,7 +12,7 @@ cache:
     - $HOME/.gradle/wrapper/
 before_script:
   - psql -c "show hba_file;" -U postgres
-  - sudo < /etc/postgresql/9.6/main/pg_hba.conf
+  - head -20 /etc/postgresql/9.6/main/pg_hba.conf
   - psql -c "CREATE DATABASE sqlcmd;" -U postgres
   - psql -c "CREATE DATABASE test;" -U postgres
   - psql -c "CREATE USER sqlcmd WITH PASSWORD 'sqlcmd' SUPERUSER;" -U postgres
