@@ -2,7 +2,6 @@ language: java
 jdk:
   - oraclejdk8
 services:
-  - docker
   - postgresql
 cache:
   directories:
@@ -10,18 +9,11 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_script:
-  - psql -c "CREATE DATABASE sqlcmd;" -U postgres
+ - sudo mv -f $TRAVIS_BUILD_DIR/target/test-classes/config/pg_hba.conf /etc/postgresql/9.6/main/
+    - sudo service postgresql restart
+    - psql -U postgres -c "CREATE USER sqlcmd PASSWORD 'sqlcmd';"
+    - psql -U postgres -c "CREATE DATABASE sqlcmd OWNER sqlcmd ENCODING = 'UTF8' CONNECTION LIMIT = -1;"
   - psql -c "CREATE DATABASE test;" -U postgres
-  - psql -c "CREATE USER sqlcmd WITH ENCRYPTED PASSWORD 'sqlcmd' SUPERUSER;" -U postgres
-  - sudo sed -i 's/local   all             all                                     trust/local   all             sqlcmd                                     md5/g' /etc/postgresql/9.6/main/pg_hba.conf
-  - sudo sed -i 's/host    all             all             127.0.0.1\/32            trust/host    all             sqlcmd             127.0.0.1\/32            md5/g' /etc/postgresql/9.6/main/pg_hba.conf
-  - sudo sed -i 's/host    all             all             ::1\/128                 trust/host    all             sqlcmd             ::1\/128                 md5/g' /etc/postgresql/9.6/main/pg_hba.conf
-  - sudo service postgresql restart
   - sudo cat /etc/postgresql/9.6/main/pg_hba.conf
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE sqlcmd TO sqlcmd;" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE test TO sqlcmd;" -U postgres
-test:
-  adapter: postgresql
-  database: sqlcmd
 addons:
   postgresql: "9.6"
