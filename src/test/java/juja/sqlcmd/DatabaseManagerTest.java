@@ -37,9 +37,6 @@ public class DatabaseManagerTest {
     @BeforeClass
     public static void setTestingEnvironment() throws SQLException {
         connection = DriverManager.getConnection(
-                JDBC_URL, DB_ADMIN_NAME, DB_ADMIN_PASSWORD);
-        connection.close();
-        connection = DriverManager.getConnection(
                 JDBC_URL + TEST_DB_NAME, DB_ADMIN_NAME, DB_ADMIN_PASSWORD);
     }
 
@@ -153,7 +150,9 @@ public class DatabaseManagerTest {
     }
 
     private static void recreateDbSchema() throws SQLException {
-        executeSqlQuery("DROP SCHEMA public CASCADE");
-        executeSqlQuery("CREATE SCHEMA public");
+        executeSqlQuery("DROP SCHEMA IF EXISTS public CASCADE");
+        executeSqlQuery("CREATE SCHEMA public AUTHORIZATION " + DB_USER_NAME);
+        executeSqlQuery("ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public " +
+                "GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO " + DB_USER_NAME);
     }
 }
