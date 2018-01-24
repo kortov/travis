@@ -25,7 +25,6 @@ public class Application {
     public void simpleSQL() throws SQLException, ClassNotFoundException {
         connection = getConnection();
 
-        printTableList();
         dropTableIfExists(USER_TABLE_NAME);
         printTableList();
 

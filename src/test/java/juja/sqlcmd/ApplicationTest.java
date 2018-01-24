@@ -33,16 +33,14 @@ public class ApplicationTest {
         System.setErr(originalErr);
     }
 
-    /*@Test
+    @Test
     public void TestSimpleSql() {
         try {
             new Application().simpleSQL();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String expected = "user" + LINE_SEPARATOR +
-                LINE_SEPARATOR +
-                "db is empty" + LINE_SEPARATOR +
+        String expected = "db is empty" + LINE_SEPARATOR +
                 LINE_SEPARATOR +
                 "table is empty" + LINE_SEPARATOR +
                 LINE_SEPARATOR +
@@ -60,5 +58,5 @@ public class ApplicationTest {
                 "2 |user2 |password2" + LINE_SEPARATOR +
                 LINE_SEPARATOR;
         assertEquals(expected, outContent.toString());
-    }*/
+    }
 }
