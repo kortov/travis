@@ -17,3 +17,4 @@ before_script:
   - sudo cat /etc/postgresql/9.6/main/pg_hba.conf
 addons:
   postgresql: "9.6"
+  
