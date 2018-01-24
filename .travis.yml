@@ -11,7 +11,7 @@ cache:
 before_script:
 	- sudo mv -f $TRAVIS_BUILD_DIR/target/test-classes/config/pg_hba.conf /etc/postgresql/9.6/main/
 	- sudo service postgresql restart
-	- psql -U postgres -c "CREATE USER sqlcmd PASSWORD 'sqlcmd';"
+	- psql -c "CREATE USER sqlcmd PASSWORD 'sqlcmd';" -U postgres
 	- psql -U postgres -c "CREATE DATABASE sqlcmd OWNER sqlcmd ENCODING = 'UTF8' CONNECTION LIMIT = -1;"
   - psql -c "CREATE DATABASE test;" -U postgres
   - sudo cat /etc/postgresql/9.6/main/pg_hba.conf
