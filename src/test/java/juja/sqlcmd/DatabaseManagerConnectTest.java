@@ -17,7 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DatabaseManagerConnectTest {
-    private static final String DB_NAME = "sqlcmd";
+    private static final String DB_ADMIN_NAME = "postgres";
     private static final String TEST_DB_NAME = "sqlcmd_test";
     private static final String DB_ADMIN_LOGIN = "postgres";
     private static final String DB_ADMIN_PASSWORD = "postgres";
@@ -34,7 +34,7 @@ public class DatabaseManagerConnectTest {
 
     @BeforeClass
     public static void setTestingEnvironment() throws SQLException {
-        connection = DriverManager.getConnection(JDBC_URL + DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
+        connection = DriverManager.getConnection(JDBC_URL + DB_ADMIN_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
         executeSqlQuery("DROP DATABASE IF EXISTS " + TEST_DB_NAME);
         executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER_LOGIN);
         connection.close();
