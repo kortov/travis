@@ -33,6 +33,9 @@ public class DatabaseManagerTest {
         executeSqlQuery("DROP DATABASE IF EXISTS " + TEST_DB_NAME);
         executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER_LOGIN);
         connection.close();
+        connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
+        recreateDbSchema();
+        connection.close();
         connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
     }
 
