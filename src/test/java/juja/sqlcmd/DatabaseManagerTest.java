@@ -106,7 +106,7 @@ public class DatabaseManagerTest {
             statement.execute(sqlQuery);
         }
     }
-    
+
     @After
     public void closeDbManagerConnection() throws SQLException {
         databaseManager.close();
