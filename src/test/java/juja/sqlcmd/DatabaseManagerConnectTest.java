@@ -1,7 +1,6 @@
 package juja.sqlcmd;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DatabaseManagerConnectTest {
-    private static final String DB_ADMIN_NAME = "postgres";
+    private static final String ADMIN_DB_NAME = "postgres";
     private static final String TEST_DB_NAME = "sqlcmd_test";
     private static final String DB_ADMIN_LOGIN = "postgres";
     private static final String DB_ADMIN_PASSWORD = "postgres";
@@ -34,22 +33,10 @@ public class DatabaseManagerConnectTest {
 
     @BeforeClass
     public static void setTestingEnvironment() throws SQLException {
-        connection = DriverManager.getConnection(JDBC_URL + DB_ADMIN_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
+        connection = DriverManager.getConnection(JDBC_URL + ADMIN_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
         executeSqlQuery("DROP DATABASE IF EXISTS " + TEST_DB_NAME);
         executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER_LOGIN);
         connection.close();
-        connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
-    }
-
-    @AfterClass
-    public static void closeConnection() throws SQLException {
-        connection.close();
-    }
-
-    private static void executeSqlQuery(String sqlQuery) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(sqlQuery);
-        }
     }
 
     @Before
@@ -98,5 +85,11 @@ public class DatabaseManagerConnectTest {
     public void initDatabaseManagerWithInvalidJdbcUrl() {
         databaseManager = new DatabaseManager("org.postgresql.Driver", "noJdbcUrl");
         assertFalse(databaseManager.connect(TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD));
+    }
+
+    private static void executeSqlQuery(String sqlQuery) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sqlQuery);
+        }
     }
 }

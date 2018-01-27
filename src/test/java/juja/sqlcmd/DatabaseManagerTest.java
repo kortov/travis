@@ -16,7 +16,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
 public class DatabaseManagerTest {
-    private static final String DB_ADMIN_NAME = "postgres";
+    private static final String ADMIN_DB_NAME = "postgres";
     private static final String TEST_DB_NAME = "sqlcmd_test";
     private static final String DB_ADMIN_LOGIN = "postgres";
     private static final String DB_ADMIN_PASSWORD = "postgres";
@@ -29,19 +29,11 @@ public class DatabaseManagerTest {
 
     @BeforeClass
     public static void setTestingEnvironment() throws SQLException {
-        connection = DriverManager.getConnection(JDBC_URL + DB_ADMIN_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
+        connection = DriverManager.getConnection(JDBC_URL + ADMIN_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
         executeSqlQuery("DROP DATABASE IF EXISTS " + TEST_DB_NAME);
         executeSqlQuery("CREATE DATABASE " + TEST_DB_NAME + " OWNER =" + DB_USER_LOGIN);
         connection.close();
-        connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_ADMIN_LOGIN, DB_ADMIN_PASSWORD);
-        executeSqlQuery("ALTER SCHEMA public OWNER TO " + DB_USER_LOGIN);
-        connection.close();
         connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
-    }
-
-    private static void recreateDbSchema() throws SQLException {
-        executeSqlQuery("DROP SCHEMA IF EXISTS public CASCADE");
-        executeSqlQuery("CREATE SCHEMA public AUTHORIZATION " + DB_USER_LOGIN);
     }
 
     @Before
@@ -51,11 +43,15 @@ public class DatabaseManagerTest {
         databaseManager.connect(TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
     }
 
+    private static void recreateDbSchema() throws SQLException {
+        executeSqlQuery("DROP SCHEMA IF EXISTS public CASCADE");
+        executeSqlQuery("CREATE SCHEMA public AUTHORIZATION " + DB_USER_LOGIN);
+    }
+
     @AfterClass
     public static void closeConnection() throws SQLException {
         connection.close();
     }
-
 
     @Test
     public void getTableNamesWithTwoTables() throws SQLException {
@@ -112,7 +108,7 @@ public class DatabaseManagerTest {
     }
 
     @After
-    public void closeDbManager() throws SQLException {
+    public void closeDbManagerConnection() throws SQLException {
         databaseManager.close();
     }
 }
