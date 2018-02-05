@@ -39,16 +39,16 @@ public class DatabaseManagerTest {
         connection = DriverManager.getConnection(JDBC_URL + TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
     }
 
-    @Before
-    public void setUpDbManager() throws SQLException {
-        recreateDbSchema();
-        databaseManager = new DatabaseManager();
-        databaseManager.connect(TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
-    }
-
     private static void recreateDbSchema() throws SQLException {
         executeSqlQuery("DROP SCHEMA IF EXISTS public CASCADE");
         executeSqlQuery("CREATE SCHEMA public AUTHORIZATION " + DB_USER_LOGIN);
+    }
+
+    @Before
+    public void setUp() throws SQLException {
+        recreateDbSchema();
+        databaseManager = new DatabaseManager();
+        databaseManager.connect(TEST_DB_NAME, DB_USER_LOGIN, DB_USER_PASSWORD);
     }
 
     @AfterClass
@@ -111,7 +111,7 @@ public class DatabaseManagerTest {
     }
 
     @After
-    public void closeDbManagerConnection() throws SQLException {
+    public void closeResources() throws SQLException {
         databaseManager.close();
     }
 }
