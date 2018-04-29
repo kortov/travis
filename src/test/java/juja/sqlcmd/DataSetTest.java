@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.junit.Assert.assertArrayEquals;
+
 public class DataSetTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -32,6 +34,15 @@ public class DataSetTest {
     public void insertValueWithNegativeIndex() {
         DataSet dataSet = new DataSet(1);
         dataSet.insertValue(-1, "test");
+    }
+
+    @Test
+    public void insertValueWithIndexEqualZero() {
+        DataSet dataSet = new DataSet(1);
+        dataSet.insertValue(0, "test");
+        String[] expectedArray = new String[]{"test"};
+        String[] actualArray = dataSet.values();
+        assertArrayEquals(expectedArray, actualArray);
     }
 
     @Test(expected = IllegalArgumentException.class)

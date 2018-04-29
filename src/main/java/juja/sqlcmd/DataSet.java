@@ -11,6 +11,9 @@ public class DataSet {
         row = new String[rowSize];
     }
 
+    public int getRowSize() {
+        return rowSize;
+    }
 
     public void insertValue(int columnIndex, String string) {
         if (columnIndex >= rowSize || columnIndex < 0) {
@@ -18,6 +21,10 @@ public class DataSet {
             throw new IllegalArgumentException(message);
         }
         row[columnIndex] = string;
+    }
+
+    public String[] values() {
+        return row.clone();
     }
 
     @Override
