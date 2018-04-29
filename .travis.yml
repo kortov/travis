@@ -14,3 +14,6 @@ before_script:
     - sudo service postgresql restart
     - psql -U postgres -c "CREATE USER sqlcmd PASSWORD 'sqlcmd';"
     - psql -U postgres -c "CREATE DATABASE sqlcmd OWNER sqlcmd ENCODING = 'UTF8' CONNECTION LIMIT = -1;"
+
+after_success:
+  - mvn clean test jacoco:report coveralls:report
