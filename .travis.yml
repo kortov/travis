@@ -16,4 +16,4 @@ before_script:
     - psql -U postgres -c "CREATE DATABASE sqlcmd OWNER sqlcmd ENCODING = 'UTF8' CONNECTION LIMIT = -1;"
 
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test coveralls:report
